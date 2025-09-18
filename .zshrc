@@ -95,3 +95,12 @@ eval "$(rbenv init -)"
 [[ -f /home/mondolreal/.dart-cli-completion/zsh-config.zsh ]] && . /home/mondolreal/.dart-cli-completion/zsh-config.zsh || true
 ## [/Completion]
 
+## for yazi file manager
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
