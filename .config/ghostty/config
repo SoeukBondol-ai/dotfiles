@@ -46,7 +46,7 @@ font-family-bold = "JetBrains Mono SemiBold"
 font-family-bold-italic = "JetBrains Mono SemiBold Italic"
 font-size = 14
 
-theme = "light:tokyonight-day,dark:tokyonight"
+theme = "dark:TokyoNight,light:SomeLightTheme"
 
 background-opacity = 0.9
 background-blur-radius = 20

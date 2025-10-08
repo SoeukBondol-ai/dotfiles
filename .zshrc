@@ -104,3 +104,7 @@ function y() {
 	fi
 	rm -f -- "$tmp"
 }
+
+# alias pnpm  for short 
+alias pn=pnpm
+
