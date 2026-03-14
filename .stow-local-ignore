@@ -1,0 +1,6 @@
+# ~/dotfiles/.stow-local-ignore
+README.md
+LICENSE
+\.git
+\.DS_Store
+setup\.sh

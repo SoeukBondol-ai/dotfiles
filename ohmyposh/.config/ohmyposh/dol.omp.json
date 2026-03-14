@@ -1,0 +1,120 @@
+{
+  "Created": "Phunt_Vieg_",
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "palette": {
+    "white": "#CDD6F4",
+    "black": "#181825",
+    "blue": "#89B4FA",
+    "lavender": "#B4BEFE",
+    "cyan": "#94E2D5",
+    "green": "#A6E3A1",
+    "purple": "#CBA6F7",
+    "red": "#F38BA8",
+    "pink": "#F5C2E7",
+    "yellow": "#F9E2AF",
+    "orange": "#FAB387"
+  },
+  "blocks": [
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "type": "text",
+          "style": "plain",
+          "foreground": "p:white",
+          "template": "\u256d\u2500"
+        },
+        {
+          "type": "session",
+          "background": "p:yellow",
+          "foreground": "p:black",
+          "style": "diamond",
+          "leading_diamond": "\ue0b6",
+          "trailing_diamond": "\ue0b0",
+          "template": " {{ .UserName }} "
+        },
+
+        /* ---------------- PATH: SMALL (for narrow terminals) ---------------- */
+        {
+          "type": "path",
+          "background": "p:blue",
+          "foreground": "p:black",
+          "style": "diamond",
+          "trailing_diamond": "\ue0b0",
+          "max_width": 109,
+          "properties": {
+            "style": "powerlevel",
+            "max_width": 32,
+            "max_depth": 3
+          },
+          "template": " \uf114  {{ .Path }} "
+        },
+
+        /* ---------------- PATH: FULL (for wide terminals) ---------------- */
+        {
+          "type": "path",
+          "background": "p:blue",
+          "foreground": "p:black",
+          "style": "diamond",
+          "trailing_diamond": "\ue0b0",
+          "min_width": 110,
+          "properties": {
+            "style": "full"
+          },
+          "template": " \uf114  {{ .Path }} "
+        },
+
+        /* ---------------- GIT (hidden on very small terminals) ------------ */
+        {
+          "type": "git",
+          "background": "p:pink",
+          "foreground": "p:black",
+          "style": "diamond",
+          "trailing_diamond": "\ue0b0",
+          "min_width": 80,
+          "properties": {
+            "branch_icon": "",
+            "fetch_stash_count": true,
+            "fetch_status": false,
+            "fetch_upstream_icon": true
+          },
+          "template": " \ue725 {{ .HEAD }}{{ if gt .StashCount 0 }} \ueb4b {{ .StashCount }}{{ end }} "
+        },
+
+        /* ---------------- TIME (only on wide / non-git prompts) ----------- */
+        {
+          "type": "time",
+          "background": "p:pink",
+          "foreground": "p:black",
+          "style": "diamond",
+          "trailing_diamond": "\ue0b0",
+          "min_width": 100,
+          "properties": {
+            "time_format": "15:04"
+          },
+          "template": "{{ if ne (.Segments.Contains \"Git\") true }} \u2665  {{ .CurrentDate | date .Format }} {{ end }}"
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "type": "text",
+          "foreground": "p:white",
+          "style": "plain",
+          "template": "\u2570\u2500<p:green>\u26a1</>"
+        }
+      ]
+    }
+  ],
+  "transient_prompt": {
+    "template": "<p:red>\uf489 </><p:blue>\uf0da</><p:pink>\uf105</> "
+  },
+  "final_space": true,
+  "version": 7
+}

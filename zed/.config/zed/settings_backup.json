@@ -1,0 +1,296 @@
+{
+  // ─────────────────────────────────────────────
+  //  ZED SETTINGS — Full LSP + VSCode-like setup
+  // ─────────────────────────────────────────────
+
+  // ── UI ──────────────────────────────────────
+  "ui_font_size": 20.0,
+  "buffer_font_size": 18.0,
+  "theme": {
+    "mode": "dark",
+    "light": "One Dark",
+    "dark": "One Dark Pro"
+  },
+  "icon_theme": "Material Icon Theme",
+
+  // ── AUTOSAVE ─────────────────────────────────
+  "autosave": {
+    "after_delay": { "milliseconds": 1000 }
+  },
+
+  // ── COMPLETIONS (VSCode-like) ─────────────────
+  "show_completions_on_input": true,         // trigger on every keystroke
+  "show_completion_documentation": true,     // show docs popup beside completion
+  "completion_documentation_secondary_query_debounce": 100,
+
+  // ── INLINE AI / AGENT ────────────────────────
+  "agent": {
+    "always_allow_tool_actions": true,
+    "default_model": {
+      "provider": "zed.dev",
+      "model": "claude-opus-4-5"
+    },
+    "default_profile": "ask",
+    "inline_assistant_model": {
+      "provider": "copilot_chat",
+      "model": "claude-sonnet-4"
+    }
+  },
+
+  // ── LANGUAGE CONFIGS ─────────────────────────
+  "languages": {
+
+    // Python — Pyright (types/intellisense) + Ruff (lint/format)
+    "Python": {
+      "language_servers": ["pyright", "ruff"],
+      "format_on_save": "on",
+      "formatter": {
+        "external": {
+          "command": "ruff",
+          "arguments": ["format", "--stdin-filename", "{buffer_path}", "-"]
+        }
+      },
+      "tab_size": 4,
+      "show_inline_completions": true
+    },
+
+    // JavaScript
+    "JavaScript": {
+      "language_servers": ["typescript-language-server", "eslint"],
+      "format_on_save": "on",
+      "formatter": "language_server",
+      "tab_size": 2,
+      "show_inline_completions": true
+    },
+
+    // TypeScript
+    "TypeScript": {
+      "language_servers": ["typescript-language-server", "eslint"],
+      "format_on_save": "on",
+      "formatter": "language_server",
+      "tab_size": 2,
+      "show_inline_completions": true
+    },
+
+    // TSX (React + TypeScript)
+    "TSX": {
+      "language_servers": ["typescript-language-server", "eslint", "tailwindcss-language-server"],
+      "format_on_save": "on",
+      "formatter": "language_server",
+      "tab_size": 2,
+      "show_inline_completions": true
+    },
+
+    // JSX (React)
+    "JSX": {
+      "language_servers": ["typescript-language-server", "eslint", "tailwindcss-language-server"],
+      "format_on_save": "on",
+      "formatter": "language_server",
+      "tab_size": 2
+    },
+
+    // HTML — with Emmet-style completions via html-ls
+    "HTML": {
+      "language_servers": ["vscode-html-language-server", "tailwindcss-language-server"],
+      "format_on_save": "on",
+      "formatter": "language_server",
+      "tab_size": 2
+    },
+
+    // CSS
+    "CSS": {
+      "language_servers": ["vscode-css-language-server", "tailwindcss-language-server"],
+      "format_on_save": "on",
+      "formatter": "language_server",
+      "tab_size": 2
+    },
+
+    // SCSS
+    "SCSS": {
+      "language_servers": ["vscode-css-language-server"],
+      "format_on_save": "on",
+      "formatter": "language_server",
+      "tab_size": 2
+    },
+
+    // JSON / JSONC
+    "JSON": {
+      "language_servers": ["json-language-server"],
+      "format_on_save": "on",
+      "formatter": "language_server",
+      "tab_size": 2
+    },
+
+    // Markdown — no format (it messes up prose)
+    "Markdown": {
+      "format_on_save": "off",
+      "tab_size": 2
+    },
+
+    // Rust
+    "Rust": {
+      "language_servers": ["rust-analyzer"],
+      "format_on_save": "on",
+      "formatter": "language_server",
+      "tab_size": 4
+    },
+
+    // Go
+    "Go": {
+      "language_servers": ["gopls"],
+      "format_on_save": "on",
+      "formatter": "language_server",
+      "tab_size": 4
+    }
+  },
+
+  // ── LSP SERVER CONFIGS ───────────────────────
+  "lsp": {
+
+    // ── Pyright (Python intellisense, types, imports) ──
+    "pyright": {
+      "settings": {
+        "python": {
+          "analysis": {
+            "typeCheckingMode": "basic",          // "off" | "basic" | "strict"
+            "autoSearchPaths": true,
+            "useLibraryCodeForTypes": true,
+            "diagnosticMode": "openFilesOnly",    // or "workspace" (slower but thorough)
+            "autoImportCompletions": true,
+            "completeFunctionParens": true,        // adds () after function completions
+            "inlayHints": {
+              "variableTypes": true,
+              "functionReturnTypes": true,
+              "callArgumentNames": true
+            }
+          }
+        }
+      }
+    },
+
+    // ── Ruff (Python linter — replaces flake8/isort/black) ──
+    "ruff": {
+      "initialization_options": {
+        "settings": {
+          "lint": {
+            "enable": true,
+            "select": ["E", "F", "I", "UP", "B"],  // E=pycodestyle, F=pyflakes, I=isort, UP=pyupgrade, B=bugbear
+            "ignore": ["E501"]                      // ignore line-too-long (ruff format handles it)
+          },
+          "format": {
+            "enable": true
+          }
+        }
+      }
+    },
+
+    // ── TypeScript / JavaScript ──────────────────
+    "typescript-language-server": {
+      "initialization_options": {
+        "preferences": {
+          "includeCompletionsForModuleExports": true,
+          "includeCompletionsWithInsertText": true,
+          "includeAutomaticOptionalChainCompletions": true,
+          "includeCompletionsWithSnippetText": true,   // ← enables snippets!
+          "importModuleSpecifierPreference": "relative",
+          "quotePreference": "double",
+          "allowIncompleteCompletions": true,
+          "allowRenameOfImportPath": true
+        },
+        "tsserver": {
+          "logVerbosity": "off"
+        }
+      }
+    },
+
+    // ── ESLint ───────────────────────────────────
+    "eslint": {
+      "settings": {
+        "validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+        "codeActionOnSave": { "mode": "all" },
+        "format": { "enable": true }
+      }
+    },
+
+    // ── Tailwind CSS ────────────────────────────
+    "tailwindcss-language-server": {
+      "settings": {
+        "tailwindCSS": {
+          "includeLanguages": {
+            "javascript": "javascript",
+            "javascriptreact": "javascript",
+            "typescript": "javascript",
+            "typescriptreact": "javascript",
+            "html": "html",
+            "python": "html"             // for Django templates
+          },
+          "experimental": {
+            "classRegex": [
+              ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],     // clsx()
+              ["cn\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],       // shadcn cn()
+              ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]        // cva()
+            ]
+          }
+        }
+      }
+    },
+
+    // ── HTML ─────────────────────────────────────
+    "vscode-html-language-server": {
+      "initialization_options": {
+        "provideFormatter": true,
+        "embeddedLanguages": { "css": true, "javascript": true },
+        "configurationSection": ["html", "css", "javascript"]
+      }
+    },
+
+    // ── CSS ──────────────────────────────────────
+    "vscode-css-language-server": {
+      "initialization_options": {
+        "provideFormatter": true
+      }
+    },
+
+    // ── JSON ─────────────────────────────────────
+    "json-language-server": {
+      "initialization_options": {
+        "provideFormatter": true,
+        "schemas": [
+          // Validate package.json automatically
+          {
+            "fileMatch": ["package.json"],
+            "url": "https://json.schemastore.org/package.json"
+          },
+          // tsconfig
+          {
+            "fileMatch": ["tsconfig*.json"],
+            "url": "https://json.schemastore.org/tsconfig.json"
+          },
+          // pyproject.toml substitute (json schema for common tools)
+          {
+            "fileMatch": [".prettierrc", ".prettierrc.json"],
+            "url": "https://json.schemastore.org/prettierrc.json"
+          }
+        ]
+      }
+    },
+
+    // ── Rust Analyzer ───────────────────────────
+    "rust-analyzer": {
+      "initialization_options": {
+        "check": { "command": "clippy" },
+        "cargo": { "allFeatures": true },
+        "procMacro": { "enable": true }
+      }
+    },
+
+    // ── gopls (Go) ───────────────────────────────
+    "gopls": {
+      "initialization_options": {
+        "usePlaceholders": true,
+        "completeUnimported": true,
+        "staticcheck": true
+      }
+    }
+  }
+}

@@ -1,0 +1,40 @@
+# ================================
+# Ghostty Clean Performance Config
+# ================================
+
+# ─── Window ─────────────────────
+window-decoration = none
+
+# ─── Rendering ──────────────────
+background-opacity = 1.0
+background-blur-radius = 0
+
+# ─── Fonts ──────────────────────
+font-family = JetBrains Mono 
+font-family-bold = JetBrains Mono SemiBold
+font-family-bold-italic = JetBrains Mono SemiBold Italic
+font-size = 14
+# Important: Add fallback for Khmer
+# ─── Theme ──────────────────────
+theme = TokyoNight
+
+# ─── Cursor ─────────────────────
+cursor-style = block
+cursor-style-blink = false
+cursor-opacity = 1.0
+
+# ─── Text ───────────────────────
+bold-is-bright = true
+selection-invert-fg-bg = true
+
+# ─── Keyboard ───────────────────
+# Word navigation
+keybind = ctrl+left=esc:b
+keybind = ctrl+right=esc:f
+
+# Delete previous word
+keybind = ctrl+backspace=text:\x17
+
+# ─── UX ─────────────────────────
+mouse-hide-while-typing = true
+

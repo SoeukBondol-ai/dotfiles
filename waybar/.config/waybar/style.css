@@ -1,0 +1,99 @@
+@import "onedark.css";
+
+* {
+  border: none;
+  border-radius: 0;
+  font-family: "JetBrains Mono Nerd Font";
+  font-size: 13px;
+  min-height: 0;
+  font-weight: bold;
+  padding: 0;
+}
+
+window#waybar {
+  background: transparent;
+}
+
+tooltip {
+  background: @bg0;
+  border: 1px solid @bg3;
+  border-radius: 12px;
+}
+
+tooltip label {
+  color: @fg;
+  padding: 6px;
+}
+
+#workspaces {
+  background: @bg0;
+  padding: 5px 3px;
+  margin: 0 0 0 12px;
+  border-radius: 18px;
+  border: 1px solid @bg1;
+}
+
+#workspaces button {
+  padding: 0 6px;
+  margin: 0 3px;
+  border-radius: 50px;
+  color: transparent;
+  background: @bg1;
+  transition: all 0.3s ease-in-out;
+}
+
+#workspaces button.active {
+  background: @blue;
+  color: @bg0;
+  min-width: 50px;
+  font-size: 13px;
+}
+
+#workspaces button:hover {
+  background: @purple;
+  color: @bg0;
+  border-radius: 16px;
+  min-width: 50px;
+  background-size: 400% 400%;
+}
+
+#workspaces button.urgent {
+  background: @red;
+  color: @bg0;
+  border-radius: 16px;
+  min-width: 50px;
+  background-size: 400% 400%;
+}
+
+#battery,
+#pulseaudio,
+#network,
+#clock,
+#custom-notification {
+  background: @bg0;
+  padding: 0 15px;
+  margin: 0 0 0 12px;
+  border-radius: 50px;
+  border: 1px solid @bg1;
+}
+
+#clock {
+  color: @blue;
+}
+
+#custom-notification {
+  color: @fg;
+  margin-right: 12px;
+}
+
+#pulseaudio {
+  color: @yellow;
+}
+
+#network {
+  color: @purple;
+}
+
+#battery {
+  color: @green;
+}

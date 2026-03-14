@@ -1,0 +1,82 @@
+{
+    "position": "top",
+    "margin-bottom": 15,
+    "modules-left": ["clock", "hyprland/workspaces"],
+    "modules-center": [],
+    "modules-right": ["tray", "pulseaudio", "network", "battery", "custom/notification"],
+    
+    "clock": {
+        "format": "{:%H:%M}",
+        "tooltip": true,
+        "tooltip-format": "{:%Y-%m-%d}"
+    },
+    
+    "hyprland/workspaces": {
+        "active-only": false,
+        "all-outputs": true,
+        "format": "{name}",
+        "on-click": "activate",
+        "persistent-workspaces": {
+            "*": 5
+        }
+    },
+    
+    "tray": {
+        "spacing": 10
+    },
+    
+    "pulseaudio": {
+        "format": "{icon}",
+        "format-muted": "󰖁",
+        "format-icons": {
+            "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol"
+    },
+    
+    "network": {
+        "format-wifi": "{icon}",
+        "format-ethernet": "󰈀",
+        "format-disconnected": "󰤮",
+        "tooltip-format": "{essid} ({signalStrength}%)",
+        "on-click": "ghostty -e nmtui", 
+        "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"]
+    },    
+   "battery": {
+    "interval": 60,
+    "states": {
+        "warning": 30,
+        "critical": 15
+    },
+    // The format when discharging
+    "format": "{icon} {capacity}%",
+    
+    // ✅ NEW: Format when CHARGING
+    "format-charging": " {capacity}%",
+    
+    // Optional: Format when fully charged and plugged in
+    // "format-full": " {capacity}%", 
+
+    "format-icons": ["", "", "", "", ""]
+}, 
+    "custom/notification": {
+        "tooltip": false,
+        "format": "{icon}",
+        "format-icons": {
+            "notification": "<span foreground='red'><sup></sup></span>",
+            "none": "",
+            "dnd-notification": "<span foreground='red'><sup></sup></span>",
+            "dnd-none": "",
+            "inhibited-notification": "<span foreground='red'><sup></sup></span>",
+            "inhibited-none": "",
+            "dnd-inhibited-notification": "<span foreground='red'><sup></sup></span>",
+            "dnd-inhibited-none": ""
+        },
+        "return-type": "json",
+        "exec-if": "which swaync-client",
+        "exec": "swaync-client -swb",
+        "on-click": "swaync-client -t -sw",
+        "on-click-right": "swaync-client -d -sw",
+        "escape": true
+    }
+}
