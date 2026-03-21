@@ -81,9 +81,9 @@ eval "$(zoxide init zsh)"
 
 
 # Initialize Oh-My-Posh
-export PATH="$HOME/.local/bin:$PATH"
-eval "$(oh-my-posh init zsh --config ~/.config/ohmyposh/dol.omp.json)"
-
+# export PATH="$HOME/.local/bin:$PATH"
+# eval "$(oh-my-posh init zsh --config ~/.config/ohmyposh/dol.omp.json)"
+eval "$(starship init zsh)"
 . "$HOME/.local/bin/env"
 
 # For Ctrl + arrow keys word jumping
@@ -118,3 +118,11 @@ export BUN_INSTALL="$HOME/.local/share/reflex/bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 export PATH="$HOME/.local/share/gem/ruby/3.4.0/bin:$PATH"
 eval "$(rbenv init -)"
+
+# pnpm
+export PNPM_HOME="/home/mondolreal/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
