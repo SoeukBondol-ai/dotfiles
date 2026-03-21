@@ -50,7 +50,7 @@ return {
         { name = "nvim_lsp" }, -- LSP completions
         -- { name = "nvim_lsp_signature_help" }, -- LSP signature help
         { name = "vim-dadbod-completion" },
-        -- { name = "luasnip" }, -- Snippets
+        { name = "luasnip" }, -- Snippets
         --{ name = "buffer" }, -- Buffer text
         { name = "path" }, -- File paths
       }),
