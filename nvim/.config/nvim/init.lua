@@ -1,2 +1,10 @@
-require("josean.core")
-require("josean.lazy")
+require("vim._core.ui2").enable({})
+
+require("options")
+require("keymaps")
+require("commands")
+require("pack")
+require("treesitter")
+require("lsp")
+
+vim.cmd.colorscheme("moonfly")

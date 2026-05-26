@@ -135,3 +135,13 @@ ruby()   { _lazy_load_rbenv; ruby "$@"; }
 gem()    { _lazy_load_rbenv; gem "$@"; }
 bundle() { _lazy_load_rbenv; bundle "$@"; }
 irb()    { _lazy_load_rbenv; irb "$@"; }
+
+# Cortex CLI completion (disable via /settings in cortex)
+[[ -s ~/.zsh/completions/cortex.zsh ]] && source ~/.zsh/completions/cortex.zsh
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk
+export PATH=$JAVA_HOME/bin:$PATH
+echo -e "\e[5 q"
+
+
+# Added by Antigravity CLI installer
+export PATH="/home/mondolreal/.local/bin:$PATH"
