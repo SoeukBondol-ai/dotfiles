@@ -1,172 +1,96 @@
-# Neovim Config
+# Neovim configuration
 
-Neovim nightly (0.13+) config using built-in `vim.pack` package manager, mini.nvim, and native LSP.
+A clean, modular Neovim config managed with **[lazy.nvim](https://github.com/folke/lazy.nvim)**
+(the only plugin manager used here). Built for Neovim **0.11+** (tested on 0.12).
+
+Deployed with GNU Stow — this lives in the `nvim` stow package and symlinks to
+`~/.config/nvim`.
 
 ## Structure
 
 ```
-.
-├── init.lua              -- Entry point, loads all modules
+.config/nvim/
+├── init.lua                # entry point
+├── lazy-lock.json          # pinned plugin versions (commit this)
 └── lua/
-    ├── options.lua        -- Editor settings
-    ├── keymaps.lua        -- General keymaps
-    ├── commands.lua       -- :PackAdd, :PackDel, :PackUpdate commands
-    ├── pack.lua           -- Plugins and plugin-specific keymaps
-    ├── treesitter.lua     -- Treesitter parsers
-    └── lsp.lua            -- LSP servers and Mason auto-install
+    ├── config/
+    │   ├── options.lua      # vim options (leader, UI, rounded borders…)
+    │   ├── keymaps.lua      # core, plugin-independent keymaps
+    │   ├── autocmds.lua     # autocommands
+    │   └── lazy.lua         # lazy.nvim bootstrap + setup
+    └── plugins/
+        ├── ui.lua           # tokyonight, lualine, bufferline, noice, which-key
+        ├── navigation.lua   # telescope, neo-tree, tmux-navigator
+        ├── lsp.lua          # mason, mason-lspconfig, LSP servers + keymaps
+        ├── completion.lua   # blink.cmp
+        ├── formatting.lua   # conform.nvim + nvim-lint
+        ├── treesitter.lua   # nvim-treesitter (highlighting/indent)
+        ├── git.lua          # gitsigns, fugitive, lazygit
+        └── editor.lua       # autopairs, surround, ts-autotag, sessions, trouble
 ```
+
+## Highlights
+
+- **Theme:** Tokyo Night (`night`), rounded borders on *all* floats via
+  `vim.o.winborder`.
+- **UI:** Noice command-line popup + notifications, Which-Key, Lualine, Bufferline.
+- **Finder:** Telescope (with fzf-native). Explorer: Neo-tree.
+- **LSP:** native `vim.lsp.config`/`vim.lsp.enable` (Neovim 0.11+ API), servers
+  installed by Mason. Completion via **blink.cmp**.
+- **Formatting:** conform.nvim (format-on-save). **Linting:** nvim-lint.
+- **Navigation:** seamless Neovim ⇄ tmux pane movement with `<C-h/j/k/l>`.
+
+### Language support (LSP)
+
+`basedpyright` + `ruff` (Python), `ts_ls` (TS/JS/React), `eslint`, `html`,
+`cssls`, `tailwindcss`, `jsonls`, `lua_ls`, `emmet_language_server`, `prismals`.
+
+> `eslint` and `tailwindcss` only attach when the project has the relevant config
+> file (e.g. `.eslintrc*`, `tailwind.config.*`) — this is expected behaviour.
+
+### Formatters
+
+`ruff` (Python), `prettier` (JS/TS/HTML/CSS/JSON/Markdown/YAML), `stylua` (Lua),
+and the Prisma LSP formats `.prisma` files (via conform's LSP fallback).
+
+## Key mappings
+
+Leader is `<Space>`. Which-Key shows everything live; the essentials:
+
+| Keys          | Action                           |
+| ------------- | -------------------------------- |
+| `<leader>ff`  | Find files                       |
+| `<leader>fg`  | Live grep (search text)          |
+| `<leader>fr`  | Recent files                     |
+| `<leader>fb`  | Buffers                          |
+| `<leader>ee`  | Toggle file explorer (Neo-tree)  |
+| `<leader>cf`  | Format buffer                    |
+| `<leader>cr`  | Rename symbol (LSP)              |
+| `<leader>ca`  | Code action (LSP)                |
+| `<leader>cd`  | Line diagnostics                 |
+| `gd` / `gr`   | Definition / references (LSP)    |
+| `K`           | Hover documentation              |
+| `[d` / `]d`   | Prev / next diagnostic           |
+| `<leader>xx`  | Diagnostics list (Trouble)       |
+| `<leader>gg`  | Git status (fugitive)            |
+| `<leader>gl`  | LazyGit                          |
+| `<leader>gs`  | Stage hunk                       |
+| `<leader>w`   | Save file                        |
+| `<leader>q`   | Close window                     |
+| `<C-h/j/k/l>` | Move between splits / tmux panes |
+| `<leader>Ss`  | Restore session (cwd)            |
+| `<leader>l`   | Open Lazy plugin manager         |
 
 ## Requirements
 
-- Neovim 0.13+ (nightly)
-- `tree-sitter` CLI (`pacman -S tree-sitter`)
-- `fd` (`pacman -S fd`) — for venv-selector
-- `make` & C compiler — for telescope-fzf-native
-- A Nerd Font (for icons)
+- Neovim **0.11+** (0.12 recommended)
+- `git`, a C compiler (`cc`/`gcc`) for Treesitter parsers
+- `node`/`npm` (for the JS/TS/web language servers & prettier)
+- Optional: `lazygit` binary for `<leader>gl`, `ripgrep` for faster Telescope grep
 
-## LSP Servers (auto-installed by Mason)
+## Notes
 
-| Server        | Language               | Purpose                          |
-|---------------|------------------------|----------------------------------|
-| lua_ls        | Lua                    | Type checking, completion        |
-| marksman      | Markdown               | Completion, references           |
-| gopls         | Go                     | Full language support            |
-| rust_analyzer | Rust                   | Full language support            |
-| pyright       | Python                 | Type checking, navigation        |
-| ruff          | Python                 | Linting, formatting, code actions|
-| ts_ls         | TypeScript / JS / JSX  | Full language support            |
-| html          | HTML                   | Completion, diagnostics          |
-| cssls         | CSS                    | Completion, diagnostics           |
-
-## Treesitter Parsers
-
-go, rust, typescript, javascript, tsx, html, css, json, bash, http, dockerfile, python
-
----
-
-## Keybindings
-
-### Leader: `Space`
-
-### General (keymaps.lua)
-
-| Key              | Mode   | Action                                    |
-|------------------|--------|-------------------------------------------|
-| `<leader>d`      | n, x   | Delete without yanking (black hole)       |
-| `<leader>s`      | n      | Substitute word under cursor globally     |
-| `<leader>X`      | n      | Make current file executable              |
-| `<leader>re`     | n      | Restart Neovim config                     |
-| `<leader>u`     | n      | Toggle built-in undotree                  |
-| `p`              | x      | Paste over selection without losing yank  |
-| `<C-c>`          | i      | Exit insert mode                          |
-| `<C-c>`          | n      | Clear search highlighting                 |
-| `J`              | n      | Join lines, keep cursor position          |
-| `J` / `K`        | v      | Move selected lines down / up             |
-| `<` / `>`        | v      | Unindent / indent (keep selection)        |
-| `<C-d>` / `<C-u>`| n      | Scroll down / up (centered)              |
-| `n` / `N`        | n      | Next / previous search result (centered) |
-
-### LSP (lsp.lua)
-
-| Key              | Mode   | Action                                    |
-|------------------|--------|-------------------------------------------|
-| `gd`             | n      | Go to definition                          |
-| `<leader>f`      | n      | Format buffer                              |
-| `df`             | n      | Show line diagnostics float               |
-
-### File Explorer — mini.files (pack.lua)
-
-| Key              | Mode   | Action                                    |
-|------------------|--------|-------------------------------------------|
-| `-`              | n      | Open file explorer                        |
-| `<leader>-`      | n      | Open explorer at current file              |
-| `<leader>ee`     | n      | Open file explorer                         |
-
-### Pick / Finder — mini.picker (pack.lua)
-
-| Key              | Mode   | Action                                    |
-|------------------|--------|-------------------------------------------|
-| `<leader>pf`     | n      | Find files                                |
-| `<leader>ps`     | n      | Grep word under cursor                    |
-| `<leader>vh`     | n      | Search help                                |
-| `<leader>xx`     | n      | Diagnostics picker                        |
-| `<leader>pk`     | n      | Search keymaps                             |
-
-### Telescope (pack.lua)
-
-| Key              | Mode   | Action                                    |
-|------------------|--------|-------------------------------------------|
-| `<leader>tf`     | n      | Find files                                |
-| `<leader>tg`     | n      | Live grep                                 |
-| `<leader>tb`     | n      | Buffers                                    |
-| `<leader>th`     | n      | Help tags                                  |
-| `<leader>to`     | n      | Recent files                               |
-| `<leader>td`     | n      | Diagnostics                                |
-
-### Git (pack.lua)
-
-| Key              | Mode   | Action                                    |
-|------------------|--------|-------------------------------------------|
-| `<leader>gg`     | n      | Fugitive full page (new tab)              |
-| `<leader>gd`     | n      | Git diff split                             |
-
-### Python — venv-selector (pack.lua)
-
-| Key              | Mode   | Action                                    |
-|------------------|--------|-------------------------------------------|
-| `<leader>vs`     | n      | Select Python virtual environment         |
-
-Auto-detects `.venv` and `venv` directories (works with `uv`).
-
-### Surround — mini.surround (pack.lua)
-
-| Key   | Action                                   |
-|-------|------------------------------------------|
-| `sa`  | Add surrounding (e.g. `saiw"`)           |
-| `sd`  | Delete surrounding                       |
-| `sr`  | Replace surrounding                      |
-| `sf`  | Find surrounding (right)                 |
-| `sF`  | Find surrounding (left)                  |
-| `sh`  | Highlight surrounding                    |
-
----
-
-## Plugins
-
-| Plugin                     | Purpose                          |
-|----------------------------|----------------------------------|
-| vim-moonfly-colors         | Color scheme                     |
-| mini.nvim                  | files, picker, surround, clue, completions, snippets, notify, cmdline, diff |
-| nvim-treesitter            | Syntax highlighting              |
-| nvim-lspconfig             | LSP configurations               |
-| mason.nvim                 | LSP server installer              |
-| mason-tool-installer       | Auto-install LSP servers          |
-| vim-fugitive               | Git integration                   |
-| telescope.nvim             | Fuzzy finder                      |
-| telescope-fzf-native       | FZF sorter for telescope          |
-| venv-selector.nvim         | Python venv auto-detection        |
-| friendly-snippets          | Snippet collection                |
-
-## Commands
-
-| Command            | Action                                  |
-|--------------------|-----------------------------------------|
-| `:PackAdd <repo>`  | Add plugin(s) by repo URL              |
-| `:PackDel <name>`  | Delete plugin(s)                        |
-| `:PackUpdate [name]`| Update all or specific plugins         |
-
-## Editor Options (options.lua)
-
-- Relative line numbers
-- 4-space tabs, expanded to spaces
-- No line wrapping
-- Smart indent
-- Live substitute preview (`inccommand=split`)
-- Splits open below/right
-- Smart case-insensitive search
-- Global statusline
-- No swap/backup files, persistent undo
-- System clipboard (unnamedplus)
-- 8-line scroll offset
-- Sign column always on
-- Yank highlight on copy
+- Plugins install automatically on first launch. Run `:Lazy` to manage them,
+  `:Mason` to manage LSP servers/formatters, `:checkhealth` to diagnose issues.
+- Treesitter uses the **master** branch (compiles parsers with `cc`; no external
+  `tree-sitter` CLI needed).

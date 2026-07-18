@@ -145,3 +145,9 @@ echo -e "\e[5 q"
 
 # Added by Antigravity CLI installer
 export PATH="/home/mondolreal/.local/bin:$PATH"
+
+# >>> grok installer >>>
+export PATH="$HOME/.grok/bin:$PATH"
+fpath=(~/.grok/completions/zsh $fpath)
+autoload -Uz compinit && compinit -C
+# <<< grok installer <<<

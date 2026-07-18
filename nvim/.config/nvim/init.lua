@@ -1,10 +1,6 @@
-require("vim._core.ui2").enable({})
-
-require("options")
-require("keymaps")
-require("commands")
-require("pack")
-require("treesitter")
-require("lsp")
-
-vim.cmd.colorscheme("moonfly")
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+require("config.options")
+require("config.keymaps")
+require("config.autocmds")
+require("config.lazy")
