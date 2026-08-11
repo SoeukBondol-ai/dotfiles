@@ -1,0 +1,83 @@
+onboarding = false
+
+# ============================================================
+# Terminal
+# ============================================================
+
+[terminal]
+
+# Use the current/source pane directory for new panes and tabs.
+new_cwd = "follow"
+
+# Valid values include:
+# "auto", "login", and "non_login"
+shell_mode = "auto"
+
+
+# ============================================================
+# Prefix and keybindings
+# ============================================================
+
+[keys]
+
+prefix = "ctrl+a"
+
+# Tabs
+new_tab = "prefix+c"
+next_tab = "prefix+n"
+previous_tab = "prefix+p"
+
+# Panes
+split_vertical = "prefix+v"
+split_horizontal = "prefix+minus"
+close_pane = "prefix+x"
+fullscreen = "prefix+z"
+
+# Pane navigation
+focus_pane_left = "prefix+h"
+focus_pane_down = "prefix+j"
+focus_pane_up = "prefix+k"
+focus_pane_right = "prefix+l"
+
+# Resize mode
+resize_mode = "prefix+r"
+
+# Copy mode
+copy_mode = "prefix+["
+
+# Workspaces
+new_workspace = "prefix+shift+n"
+workspace_picker = "prefix+w"
+
+# Detach
+detach = "prefix+q"
+
+
+# ============================================================
+# Theme
+# ============================================================
+
+[theme]
+
+name = "terminal"
+auto_switch = false
+
+
+# ============================================================
+# UI
+# ============================================================
+
+[ui]
+
+tab_bar_position = "top"
+
+
+# ============================================================
+# Notifications
+# ============================================================
+
+[ui.toast]
+
+# Valid choices documented by Herdr:
+# "herdr", "terminal", "system", or "off"
+delivery = "terminal"
