@@ -214,6 +214,11 @@ return {
 
       spec = {
         {
+          "<leader>a",
+          group = "AI / Agent",
+        },
+
+        {
           "<leader>b",
           group = "Buffer",
         },

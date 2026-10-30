@@ -28,9 +28,8 @@ bold-is-bright = true
 selection-invert-fg-bg = true
 
 # ─── Keyboard ───────────────────
-# Word navigation
-keybind = ctrl+left=esc:b
-keybind = ctrl+right=esc:f
+# Keep Ctrl+arrow keys available for Neovim split resizing.
+# With zsh's Emacs bindings, Alt+b / Alt+f move by words.
 
 # Delete previous word
 keybind = ctrl+backspace=text:\x17

@@ -20,7 +20,9 @@ shell_mode = "auto"
 
 [keys]
 
-prefix = "ctrl+a"
+# F12 leaves Ctrl-a available to tmux, Neovim, and shell line editing.
+# Press F12, release it, then press the action key below.
+prefix = "f12"
 
 # Tabs
 new_tab = "prefix+c"
@@ -31,7 +33,7 @@ previous_tab = "prefix+p"
 split_vertical = "prefix+v"
 split_horizontal = "prefix+minus"
 close_pane = "prefix+x"
-fullscreen = "prefix+z"
+zoom = "prefix+z"
 
 # Pane navigation
 focus_pane_left = "prefix+h"
@@ -51,6 +53,7 @@ workspace_picker = "prefix+w"
 
 # Detach
 detach = "prefix+q"
+reload_config = "prefix+shift+r"
 
 
 # ============================================================

@@ -2,6 +2,8 @@ local augroup = function(name)
   return vim.api.nvim_create_augroup("user_" .. name, { clear = true })
 end
 
+require("config.file_refresh").setup()
+
 -- Highlight yanked text
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = augroup("highlight_yank"),

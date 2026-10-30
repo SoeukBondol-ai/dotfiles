@@ -1,6 +1,14 @@
 -- Core, plugin-independent keymaps. Plugin-specific maps live with each plugin spec.
 local map = vim.keymap.set
 
+-- Leave terminal input without consuming Escape (agents use it to cancel).
+map("t", "<C-g>", [[<C-\><C-n>]], { desc = "Leave terminal input mode" })
+for _, direction in ipairs({ "h", "j", "k", "l" }) do
+  map("t", "<C-" .. direction .. ">", [[<C-\><C-n><C-w>]] .. direction, {
+    desc = "Move from terminal to " .. direction .. " split",
+  })
+end
+
 -- Clear search highlight
 map("n", "<leader>nh", function()
   vim.cmd("nohlsearch")

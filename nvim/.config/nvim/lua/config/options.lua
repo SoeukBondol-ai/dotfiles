@@ -50,6 +50,7 @@ opt.mouse = "a"
 opt.winborder = "rounded"
 
 -- Files / persistence
+opt.autoread = true -- reload externally changed files when the buffer has no unsaved edits
 opt.swapfile = false
 opt.backup = false
 opt.undofile = true
