@@ -10,6 +10,7 @@ local servers = {
   "lua_ls",
   "emmet_language_server",
   "prismals",
+  "gopls",
 }
 
 return {
@@ -257,6 +258,23 @@ return {
             hint = {
               enable = false,
             },
+          },
+        },
+      })
+
+      -----------------------------------------------------------------------
+      -- Go
+      -----------------------------------------------------------------------
+      vim.lsp.config("gopls", {
+        settings = {
+          gopls = {
+            completeUnimported = true,
+            usePlaceholders = true,
+            analyses = {
+              unusedparams = true,
+              unusedwrite = true,
+            },
+            staticcheck = true,
           },
         },
       })

@@ -70,3 +70,5 @@ keybind = ctrl+space>l=goto_split:right
 
 
 gtk-single-instance = true
+maximize = true
+

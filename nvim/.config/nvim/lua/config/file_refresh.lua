@@ -31,7 +31,7 @@ function M.setup()
     M.timer:close()
   end
   M.timer = assert(vim.uv.new_timer())
-  M.timer:start(1500, 1500, vim.schedule_wrap(M.check))
+  M.timer:start(500, 500, vim.schedule_wrap(M.check))
   vim.api.nvim_create_autocmd("VimLeavePre", {
     group = group,
     callback = function()

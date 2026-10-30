@@ -12,6 +12,7 @@ return {
     opts = {
       ensure_installed = {
         "python",
+        "go",
         "javascript",
         "typescript",
         "tsx",

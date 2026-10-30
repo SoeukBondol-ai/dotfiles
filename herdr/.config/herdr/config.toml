@@ -20,9 +20,9 @@ shell_mode = "auto"
 
 [keys]
 
-# F12 leaves Ctrl-a available to tmux, Neovim, and shell line editing.
-# Press F12, release it, then press the action key below.
-prefix = "f12"
+# Use Herdr's default prefix; Ctrl-a stays available to tmux and shell line editing.
+# Press Ctrl-b, release it, then press the action key below.
+prefix = "ctrl+b"
 
 # Tabs
 new_tab = "prefix+c"
@@ -79,6 +79,7 @@ tab_bar_position = "top"
 # Notifications
 # ============================================================
 
+agent_panel_sort = "spaces"
 [ui.toast]
 
 # Valid choices documented by Herdr:

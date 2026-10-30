@@ -44,12 +44,12 @@ Deployed with GNU Stow — this lives in the `nvim` stow package and symlinks to
 - **Navigation:** seamless Neovim ⇄ tmux pane movement with `<C-h/j/k/l>`.
 - **AI agents:** reusable native terminal splits for Codex, Claude, or other CLIs,
   grouped under `Space a` in Which-Key; sessions stay alive when hidden.
-- **External edits:** refresh unmodified buffers every 1.5 seconds and when
+- **External edits:** refresh unmodified buffers every 0.5 seconds and when
   returning from terminals; buffers with unsaved work are skipped.
 
 ### Language support (LSP)
 
-`basedpyright` + `ruff` (Python), `ts_ls` (TS/JS/React), `eslint`, `html`,
+`pyright` + `ruff` (Python), `gopls` (Go), `ts_ls` (TS/JS/React), `eslint`, `html`,
 `cssls`, `tailwindcss`, `jsonls`, `lua_ls`, `emmet_language_server`, `prismals`.
 
 > `eslint` and `tailwindcss` only attach when the project has the relevant config
@@ -57,7 +57,7 @@ Deployed with GNU Stow — this lives in the `nvim` stow package and symlinks to
 
 ### Formatters
 
-`ruff` (Python), `prettier` (JS/TS/HTML/CSS/JSON/Markdown/YAML), `stylua` (Lua),
+`gofmt` (Go), `ruff` (Python), `prettier` (JS/TS/HTML/CSS/JSON/Markdown/YAML), `stylua` (Lua),
 and the Prisma LSP formats `.prisma` files (via conform's LSP fallback).
 
 ## Key mappings
@@ -107,6 +107,7 @@ save your work with `Space w`, then use:
 | `Space a c` | Open/focus Codex |
 | `Space a l` | Open/focus Claude |
 | `Space a a` | Open/focus the last agent; hide it when already focused |
+| `Ctrl-g` from code (Normal mode) | Open/focus the last agent (default Codex) |
 | `Ctrl-g` in an agent | Hide its split; the session keeps running |
 | `Ctrl-h/j/k/l` in a terminal | Leave terminal input and move to an adjacent split |
 | `Space a t` | Open/focus a project shell |
@@ -117,9 +118,9 @@ save your work with `Space w`, then use:
 1. Press `Space a c` or `Space a l`, type your prompt, and press Enter.
 2. Press `Ctrl-h` to move from a right-hand agent split to your code, or `Ctrl-g`
    to hide the agent. On narrow windows the terminal opens below the code;
-   use `Ctrl-k` to move up. Reopen it with `Space a a`; `i` resumes input when
+   use `Ctrl-k` to move up. Reopen it with `Ctrl-g` or `Space a a`; `i` resumes input when
    already viewing a terminal in Normal mode.
-3. Files without unsaved edits refresh about every 1.5 seconds, including while
+3. Files without unsaved edits refresh about every 0.5 seconds, including while
    the agent runs. Focus/buffer changes and leaving terminal input also trigger
    checks. Refresh waits while you are in Insert, Replace, Visual, or command mode.
 4. Review edits with `Space g g` (Git status), `[h` / `]h` (previous/next hunk),
@@ -151,7 +152,11 @@ Run the isolated workflow checks from the dotfiles repo:
 
 ```sh
 XDG_STATE_HOME=/tmp/nvim-agent-tests nvim --headless -u NONE -i NONE -l nvim/.config/nvim/tests/agent_workflow.lua
+XDG_STATE_HOME=/tmp/nvim-agent-tests nvim --headless -u NONE -i NONE -c 'lua dofile("nvim/.config/nvim/tests/agent_live.lua")'
 ```
+
+The live check runs in terminal input mode and verifies prompt refresh plus
+`Ctrl-g` hide/reopen without restarting the agent process.
 
 ### Using Neovim inside Herdr, tmux, or Ghostty
 
@@ -162,21 +167,21 @@ layer its own controls:
 | ----- | -------- |
 | Hyprland | `Super` shortcuts for desktop windows/workspaces |
 | Ghostty | `Ctrl-Space`, release, then a Ghostty action key |
-| Herdr | `F12`, release, then a Herdr action key |
+| Herdr | `Ctrl-b`, release, then a Herdr action key (Herdr default) |
 | tmux | `Ctrl-a`, release, then a tmux action key |
 | Neovim | `Space` leader shortcuts; `Ctrl-h/j/k/l` for split navigation |
 
 Herdr previously used `Ctrl-a`, which also belongs to tmux and is Neovim's
 increment-number key (and the shell's move-to-start-of-line key). Its prefix is
-now `F12`, so `Ctrl-a` reaches the next layer. Herdr's pane navigation is
-`F12 h/j/k/l`; bare `Ctrl-h/j/k/l` reaches Neovim. These keys only navigate
+now the default `Ctrl-b`, so `Ctrl-a` reaches the next layer. Herdr's pane navigation is
+`Ctrl-b h/j/k/l`; bare `Ctrl-h/j/k/l` reaches Neovim. These keys only navigate
 Neovim splits and, with the existing plugin, tmux panes; they do not navigate
 Herdr panes.
 
 Ghostty now forwards `Ctrl-Left/Right` to Neovim for split resizing. For shell
 word movement, use `Alt-b` / `Alt-f` with the configured zsh Emacs bindings.
-To page backward in Neovim while inside Herdr, `Ctrl-b` is available. Inside
-tmux, its `Ctrl-a` prefix still takes precedence; these changes do not make
+Herdr consumes `Ctrl-b` as its prefix. Use `Ctrl-u` / `Ctrl-d` for Neovim
+half-page scrolling. Inside tmux, its `Ctrl-a` prefix still takes precedence; these changes do not make
 tmux forward a single `Ctrl-a` to Neovim.
 
 See the root [README](../../../README.md#keyboard-layout) for the shared shortcut
@@ -186,6 +191,7 @@ table, reload instructions, and corrected Hyprland shortcuts.
 
 - Neovim **0.11+** (0.12 recommended)
 - `git`, a C compiler (`cc`/`gcc`) for Treesitter parsers
+- Go for Go projects (`go`, `gofmt`; `gopls` is installed through Mason)
 - `node`/`npm` (for the JS/TS/web language servers & prettier)
 - Optional: `lazygit` binary for `<leader>gl`, `ripgrep` for faster Telescope grep
 
@@ -193,5 +199,7 @@ table, reload instructions, and corrected Hyprland shortcuts.
 
 - Plugins install automatically on first launch. Run `:Lazy` to manage them,
   `:Mason` to manage LSP servers/formatters, `:checkhealth` to diagnose issues.
+- For Go, open a `.go` file and run `:Mason` if `gopls` has not installed yet.
+  Use `:LspInfo` to confirm that `gopls` is attached.
 - Treesitter uses the **master** branch (compiles parsers with `cc`; no external
   `tree-sitter` CLI needed).

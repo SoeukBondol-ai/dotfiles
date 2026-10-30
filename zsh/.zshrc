@@ -154,3 +154,13 @@ autoload -Uz compinit && compinit -C
 
 # kimi-code
 export PATH="/home/mondolreal/.kimi-code/bin:$PATH"
+
+# bun completions
+[ -s "/home/mondolreal/.local/share/reflex/bun/_bun" ] && source "/home/mondolreal/.local/share/reflex/bun/_bun"
+
+# agent-browser configuration
+export AGENT_BROWSER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
+
+# >>> Codex installer >>>
+export PATH="/home/mondolreal/.local/bin:$PATH"
+# <<< Codex installer <<<

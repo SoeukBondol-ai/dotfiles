@@ -117,6 +117,9 @@ function M.setup()
   end, { nargs = "*", complete = "shellcmd", desc = "Toggle a project agent terminal (:Agent codex / claude / ...)" })
 
   local map = vim.keymap.set
+  map("n", "<C-g>", function()
+    M.toggle()
+  end, { desc = "Toggle/focus last agent (default Codex)" })
   map("n", "<leader>aa", function()
     M.toggle()
   end, { desc = "Toggle/focus last agent (default Codex)" })

@@ -62,13 +62,13 @@ into prompts. No additional plugin is required. Restart Neovim after updating.
 | -------- | ------ |
 | `Space a c` / `Space a l` | Open Codex / Claude in the current project |
 | `Space a a` | Open/focus the last agent, or hide it when focused |
-| `Ctrl-g` in the agent | Hide its split while keeping the process running |
+| `Ctrl-g` | Open/focus the last agent from code; hide it from the agent |
 | `Ctrl-h/j/k/l` in a terminal | Move to an adjacent Neovim split |
 | `Space a y` | Copy current file/line or selected line range for a prompt |
 | `Space a r` | Refresh externally changed, unmodified files |
 | `Space g g` | Review working-tree changes with Git status |
 
-Unmodified buffers refresh every 1.5 seconds while the agent runs; unsaved
+Unmodified buffers refresh every 0.5 seconds while the agent runs; unsaved
 buffers are preserved. Save before asking an agent to change the same file.
 Other CLI agents can be opened with `:Agent <command>`.
 
@@ -83,20 +83,21 @@ Herdr, tmux, and Ghostty from competing for the same key sequence.
 | Application | Prefix / shortcuts |
 | ----------- | ------------------ |
 | Ghostty | `Ctrl-Space` prefix |
-| Herdr | `F12` prefix (previously `Ctrl-a`) |
+| Herdr | `Ctrl-b` prefix (Herdr default) |
 | tmux | `Ctrl-a` prefix |
 | Neovim | `Space` leader; `Ctrl-h/j/k/l` for split navigation |
 | Hyprland | `Super` for desktop actions |
 
-Herdr examples: `F12 c` creates a tab, `F12 v` splits right, `F12 -` splits
-down, `F12 h/j/k/l` changes panes, `F12 z` zooms, `F12 w` opens workspaces,
-`F12 ?` shows active bindings, and `F12 q` detaches. `F12 Shift-r` reloads
+Herdr examples: `Ctrl-b c` creates a tab, `Ctrl-b v` splits right, `Ctrl-b -` splits
+down, `Ctrl-b h/j/k/l` changes panes, `Ctrl-b z` zooms, `Ctrl-b w` opens workspaces,
+`Ctrl-b ?` shows active bindings, and `Ctrl-b q` detaches. `Ctrl-b Shift-r` reloads
 Herdr's configuration. See the [Herdr keyboard documentation](https://herdr.dev/tui/docs/keyboard/)
 for the prefix/action model.
 
 Herdr's old `Ctrl-a` prefix conflicted with tmux, Neovim's increment-number
-command, and shell line editing. The new `F12` prefix leaves those keys to
+command, and shell line editing. The default `Ctrl-b` prefix leaves those keys to
 the inner application. When using tmux, `Ctrl-a` is still tmux's prefix.
+Herdr consumes `Ctrl-b`, so use `Ctrl-u` / `Ctrl-d` for Neovim half-page scrolling.
 
 Ghostty no longer translates `Ctrl-Left/Right` into shell word movements, so
 Neovim can receive its split-resize shortcuts. In zsh, use `Alt-b` / `Alt-f`
